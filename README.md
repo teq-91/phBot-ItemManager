@@ -4,7 +4,7 @@ phBot plugin to sort your storage/guild-storage items by `servername`
 
 **important**:
 
-  works only with testing release `v21.1.7` since `get_storage()` and `get_guild_storage()` has been implemented at this version
+works only with testing release `v21.1.7` or later since `get_storage()` and `get_guild_storage()` are used and has just been implemented at this version
 
 ## installation
 
