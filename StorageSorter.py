@@ -11,13 +11,13 @@ debug = False
 
 gui = QtBind.init(__name__, 'StorageSorter')
 
-paddingLeft = 373
-paddingTop  = 164
+padding_left = 373
+padding_top  = 164
 
-QtBind.createButton(gui, 'sorter_start_storage', 'sort storage', paddingLeft-37, paddingTop-46)
-QtBind.createButton(gui, 'sorter_start_guild_storage', 'sort guild-storage', paddingLeft-46, paddingTop-46+30)
-QtBind.createLabel(gui, '-----------------------', paddingLeft-45, paddingTop-46+55)
-QtBind.createButton(gui, 'sorter_stop', 'stop processing', paddingLeft-41, paddingTop-46+70)
+QtBind.createButton(gui, 'sorter_start_storage', 'sort storage', padding_left-37, padding_top-46)
+QtBind.createButton(gui, 'sorter_start_guild_storage', 'sort guild-storage', padding_left-46, padding_top-46+30)
+QtBind.createLabel(gui, '-----------------------', padding_left-45, padding_top-46+55)
+QtBind.createButton(gui, 'sorter_stop', 'stop processing', padding_left-41, padding_top-46+70)
 
 running = False
 timers  = []
