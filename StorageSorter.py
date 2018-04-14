@@ -447,7 +447,7 @@ def do_sort(type):
                 break
         guild_storage_unlock()
         guild_storage_close()
-    # guild_storage_unselect()
+        # guild_storage_unselect()
     sorter_stop()
 
 
