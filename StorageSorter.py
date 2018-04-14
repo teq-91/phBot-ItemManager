@@ -23,13 +23,13 @@ running = False
 timers  = []
 
 if get_locale() == 18:		# iSRO
-	timeoutDefault = 1.0
+	timeout_default = 1.0
 elif get_locale() == 22:	# vSRO (LegionSRO, ...)
-	timeoutDefault = 0.5
+	timeout_default = 0.5
 else:
-	timeoutDefault = 1.0
+	timeout_default = 1.0
 
-npcStorageServernames = [
+npc_storage_servernames = [
 	'NPC_CH_WAREHOUSE_M',		# jangan #1
 	'NPC_CH_WAREHOUSE_W',		# jangan #2
 	'NPC_EU_WAREHOUSE',			# constantinople
@@ -42,7 +42,7 @@ npcStorageServernames = [
 	'NPC_SD_T_AREA_WAREHOUSE2',	# alexandria north
 ]
 
-npcGuildStorageServernames = [
+npc_guild_storage_servernames = [
 	'NPC_CH_GENARAL_SP',		# jangan
 	'NPC_WC_GUILD',				# donwhang
 	'NPC_SD_M_AREA_GUILD',		# alexandria south
@@ -51,7 +51,7 @@ npcGuildStorageServernames = [
 
 def inject_client(opcode, data, encrypted):
 	global debug
-	if debug == True:
+	if debug:
 		log('[%s]: bot to client' %(__name__))
 		log('[%s]: \topcode: 0x%02X' %(__name__, opcode))
 		if data is not None:
@@ -59,7 +59,7 @@ def inject_client(opcode, data, encrypted):
 	return inject_silkroad(opcode, data, encrypted)
 	
 def inject_server(opcode, data, encrypted):
-	if debug == True:
+	if debug:
 		log('[%s]: bot to server' %(__name__))
 		log('[%s]: \topcode: 0x%02X' %(__name__, opcode))
 		if data is not None:
@@ -109,221 +109,221 @@ def sorter_stop():
 	log('[%s] stopped' %(__name__))
 
 def npc_get_storage_id():
-	global npcStorageServernames
-	storageNpcKeys = array_get_subkey_filterd_keys(get_npcs(), 'servername', npcStorageServernames)
-	if len(storageNpcKeys) == 0:
+	global npc_storage_servernames
+	storage_npc_keys = array_get_subkey_filterd_keys(get_npcs(), 'servername', npc_storage_servernames)
+	if len(storage_npc_keys) == 0:
 		return b'\x00\x00'
-	return struct.pack('<H', storageNpcKeys[0])
+	return struct.pack('<H', storage_npc_keys[0])
 	
 def npc_get_guild_storage_id():
-	global npcGuildStorageServernames
-	storageNpcKeys = array_get_subkey_filterd_keys(get_npcs(), 'servername', npcGuildStorageServernames)
-	if len(storageNpcKeys) == 0:
+	global npc_guild_storage_servernames
+	storage_npc_keys = array_get_subkey_filterd_keys(get_npcs(), 'servername', npc_guild_storage_servernames)
+	if len(storage_npc_keys) == 0:
 		return b'\x00\x00'
-	return struct.pack('<H', storageNpcKeys[0])
+	return struct.pack('<H', storage_npc_keys[0])
 
 def storage_select(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
+		timeout = timeout_default
 	if get_locale() == 18:		# iSRO
 		opcode = 0x7045
 	elif get_locale() == 22:	# vSRO (LegionSRO, ...)
 		opcode = 0x7C45
 	else:
 		return False
-	npcId = npc_get_storage_id()
-	if npcId == False:
+	npc_id = npc_get_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(opcode, packet, False)
 	sleep(timeout)
 	
 def guild_storage_select(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
+		timeout = timeout_default
 	if get_locale() == 18:		# iSRO
 		opcode = 0x7045
 	elif get_locale() == 22:	# vSRO (LegionSRO, ...)
 		opcode = 0x7C45
 	else:
 		return False
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(opcode, packet, False)
 	sleep(timeout)
 
 def storage_unselect(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
+		timeout = timeout_default
 	packet = bytearray(b'\x01')
 	inject_client(0xB04B, packet, False)
 	sleep(timeout)
 	
 def guild_storage_unselect(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
+		timeout = timeout_default
 	packet = bytearray(b'\x01')
 	inject_client(0xB04B, packet, False)
 	sleep(timeout)
 
 def guild_storage_lock(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(0x7250, packet, False)
 	sleep(timeout)
 	
 def guild_storage_unlock(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(0x7251, packet, False)
 	sleep(timeout)
 	
 def storage_refresh(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00\x00'
 	inject_server(0x703C, packet, False)
 	sleep(timeout)
 	
 def guild_storage_refresh(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(0x7252, packet, False)
 	sleep(timeout)
 
 def storage_open(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00\x03'
 	inject_server(0x7046, packet, False)
 	sleep(timeout)
 
 def guild_storage_open(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00\x0f'
 	inject_server(0x7046, packet, False)
 	sleep(timeout)
 
 def storage_close(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(0x704B, packet, False)
 	sleep(timeout)
 	
 def guild_storage_close(timeout = 0.0):
-	global timeoutDefault
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+		timeout = timeout_default
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
-	packet = bytearray(npcId)
+	packet = bytearray(npc_id)
 	packet += b'\x00\x00'
 	inject_server(0x704B, packet, False)
 	sleep(timeout)
 
-def storage_move_item(sourceSlot, destinationSlot, timeout = 0.0):
-	global timeoutDefault
+def storage_move_item(source_slot, destination_slot, timeout = 0.0):
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault*0.75
+		timeout = timeout_default * 0.75
 	if (
 		get_storage()['size'] == 0
-		or sourceSlot > get_storage()['size']
-		or sourceSlot < 0
-		or destinationSlot > get_storage()['size']
-		or destinationSlot < 0
+		or source_slot > get_storage()['size']
+		or source_slot < 0
+		or destination_slot > get_storage()['size']
+		or destination_slot < 0
 		or (
-			get_storage()['items'][sourceSlot] == None
+			get_storage()['items'][source_slot] is None
 			and
-			get_storage()['items'][destinationSlot] == None
+			get_storage()['items'][destination_slot] is None
 		)
 	):
 		return False
-	npcId = npc_get_storage_id()
-	if npcId == False:
+	npc_id = npc_get_storage_id()
+	if npc_id == False:
 		return False
 	packet = bytearray(b'\x01')
-	packet.append(sourceSlot)
-	packet.append(destinationSlot)
-	packet += struct.pack('<H', get_storage()['items'][sourceSlot]['quantity'])
-	packet += npcId
+	packet.append(source_slot)
+	packet.append(destination_slot)
+	packet += struct.pack('<H', get_storage()['items'][source_slot]['quantity'])
+	packet += npc_id
 	packet += b'\x00\x00'
 	inject_server(0x7034, packet, False)
 	sleep(timeout)
 	
-def guild_storage_move_item(sourceSlot, destinationSlot, timeout = 0.0):
-	global timeoutDefault
+def guild_storage_move_item(source_slot, destination_slot, timeout = 0.0):
+	global timeout_default
 	if timeout == 0.0:
-		timeout = timeoutDefault*0.75
+		timeout = timeout_default * 0.75
 	if (
 		get_guild_storage()['size'] == 0
-		or sourceSlot > get_guild_storage()['size']
-		or sourceSlot < 0
-		or destinationSlot > get_guild_storage()['size']
-		or destinationSlot < 0
+		or source_slot > get_guild_storage()['size']
+		or source_slot < 0
+		or destination_slot > get_guild_storage()['size']
+		or destination_slot < 0
 		or (
-			get_guild_storage()['items'][sourceSlot] == None
+			get_guild_storage()['items'][source_slot] is None
 			and
-			get_guild_storage()['items'][destinationSlot] == None
+			get_guild_storage()['items'][destination_slot] is None
 		)
 	):
 		return False
-	npcId = npc_get_guild_storage_id()
-	if npcId == False:
+	npc_id = npc_get_guild_storage_id()
+	if npc_id == False:
 		return False
 	packet = bytearray(b'\x1d')
-	packet.append(sourceSlot)
-	packet.append(destinationSlot)
-	packet += struct.pack('<H', get_guild_storage()['items'][sourceSlot]['quantity'])
-	packet += npcId
+	packet.append(source_slot)
+	packet.append(destination_slot)
+	packet += struct.pack('<H', get_guild_storage()['items'][source_slot]['quantity'])
+	packet += npc_id
 	packet += b'\x00\x00'
 	inject_server(0x7034, packet, False)
 	sleep(timeout)
@@ -331,17 +331,17 @@ def guild_storage_move_item(sourceSlot, destinationSlot, timeout = 0.0):
 def array_sort_by_subkey(array, subkey):
 	if not isinstance(array, (list, dict)):
 		return Falseubkey(array, subkey)
-	sortedArray = copy.deepcopy(array)
-	for i, elem in enumerate(sortedArray):
+	sorted_array = copy.deepcopy(array)
+	for i, elem in enumerate(sorted_array):
 		if not isinstance(elem, (list, dict)):
-			sortedArray[i] = elem = {subkey: ''}
+			sorted_array[i] = elem = {subkey: ''}
 		if subkey not in elem:
-			sortedArray[i] = elem = {subkey: ''}
+			sorted_array[i] = elem = {subkey: ''}
 		for o, subelem in elem.items():
 			if not isinstance(subelem, (int, str)):
-				sortedArray[i][o] = ''
-	sortedArray = sorted(sortedArray, key=lambda subarray: subarray[subkey], reverse=True)
-	return sortedArray
+				sorted_array[i][o] = ''
+	sorted_array = sorted(sorted_array, key=lambda subarray: subarray[subkey], reverse=True)
+	return sorted_array
 
 def array_get_subkey_filterd_keys(array, subkey, values):
 	keys = []
@@ -379,17 +379,17 @@ def do_sort(type):
 		storage_open()
 		storage_refresh()
 		for i in range(0, get_storage()['size']):
-			sortedStorageItems = array_sort_by_subkey(get_storage()['items'][i:], 'servername')
-			if sortedStorageItems == False or len(sortedStorageItems) == 0:
+			sorted_storage_items = array_sort_by_subkey(get_storage()['items'][i:], 'servername')
+			if sorted_storage_items == False or len(sorted_storage_items) == 0:
 				continue
-			itemSlots = array_get_subkey_filterd_keys(get_storage()['items'][i:], 'servername', sortedStorageItems[0]['servername'])
-			if itemSlots == False or len(itemSlots) == 0:
+			item_slots = array_get_subkey_filterd_keys(get_storage()['items'][i:], 'servername', sorted_storage_items[0]['servername'])
+			if item_slots == False or len(item_slots) == 0:
 				break
-			if i+itemSlots[0] == i:
+			if i+item_slots[0] == i:
 				continue
-			log('[%s] moving slot %i to slot %i' %(__name__, i+itemSlots[0], i))
-			if storage_move_item(i+itemSlots[0], i) == False:
-				log('[%s] error: unable to move slot %i to slot %i' %(__name__, i+itemSlots[0], i))
+			log('[%s] moving slot %i to slot %i' %(__name__, i+item_slots[0], i))
+			if storage_move_item(i+item_slots[0], i) == False:
+				log('[%s] error: unable to move slot %i to slot %i' %(__name__, i+item_slots[0], i))
 				break
 		storage_close()
 		storage_unselect()
@@ -399,17 +399,17 @@ def do_sort(type):
 		guild_storage_lock()
 		guild_storage_refresh()
 		for i in range(0, get_guild_storage()['size']):
-			sortedGuildStorageItems = array_sort_by_subkey(get_guild_storage()['items'][i:], 'servername')
-			if sortedGuildStorageItems == False or len(sortedGuildStorageItems) == 0:
+			sorted_guild_storage_items = array_sort_by_subkey(get_guild_storage()['items'][i:], 'servername')
+			if sorted_guild_storage_items == False or len(sorted_guild_storage_items) == 0:
 				continue
-			itemSlots = array_get_subkey_filterd_keys(get_guild_storage()['items'][i:], 'servername', sortedGuildStorageItems[0]['servername'])
-			if itemSlots == False or len(itemSlots) == 0:
+			item_slots = array_get_subkey_filterd_keys(get_guild_storage()['items'][i:], 'servername', sorted_guild_storage_items[0]['servername'])
+			if item_slots == False or len(item_slots) == 0:
 				break
-			if i+itemSlots[0] == i:
+			if i+item_slots[0] == i:
 				continue
-			log('[%s] moving slot %i to slot %i' %(__name__, i+itemSlots[0], i))
-			if guild_storage_move_item(i+itemSlots[0], i) == False:
-				log('[%s] error: unable to move slot %i to slot %i' %(__name__, i+itemSlots[0], i))
+			log('[%s] moving slot %i to slot %i' %(__name__, i+item_slots[0], i))
+			if guild_storage_move_item(i+item_slots[0], i) == False:
+				log('[%s] error: unable to move slot %i to slot %i' %(__name__, i+item_slots[0], i))
 				break
 		guild_storage_unlock()
 		guild_storage_close()
