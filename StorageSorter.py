@@ -59,6 +59,7 @@ def inject_client(opcode, data, encrypted):
 	return inject_silkroad(opcode, data, encrypted)
 	
 def inject_server(opcode, data, encrypted):
+	global debug
 	if debug:
 		log('[%s]: bot to server' %(__name__))
 		log('[%s]: \topcode: 0x%02X' %(__name__, opcode))
