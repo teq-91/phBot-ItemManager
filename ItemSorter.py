@@ -43,20 +43,20 @@ npc_servernames = {
 def inject_client(opcode, data, encrypted):
     global debug
     if debug:
-        log('[%s]: bot to client' % (__name__))
-        log('[%s]: \topcode: 0x%02X' % (__name__, opcode))
+        log('[%s] bot to client' % (__name__))
+        log('[%s] \topcode: 0x%02X' % (__name__, opcode))
         if data is not None:
-            log('[%s]: \tdata: %s' % (__name__, binascii.hexlify(data)))
+            log('[%s] \tdata: %s' % (__name__, binascii.hexlify(data)))
     return inject_silkroad(opcode, data, encrypted)
 
 
 def inject_server(opcode, data, encrypted):
     global debug
     if debug:
-        log('[%s]: bot to server' % (__name__))
-        log('[%s]: \topcode: 0x%02X' % (__name__, opcode))
+        log('[%s] bot to server' % (__name__))
+        log('[%s] \topcode: 0x%02X' % (__name__, opcode))
         if data is not None:
-            log('[%s]: \tdata: %s' % (__name__, binascii.hexlify(data)))
+            log('[%s] \tdata: %s' % (__name__, binascii.hexlify(data)))
     return inject_joymax(opcode, data, encrypted)
 
 
