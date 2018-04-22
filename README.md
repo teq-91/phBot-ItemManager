@@ -1,6 +1,6 @@
-# phBot StorageSorter
+# phBot ItemSorter
 
-phBot plugin to sort your storage/guild-storage items by `servername`
+phBot plugin to sort your inventory, storage and guild-storage items by `servername`
 
 **important**:
 
