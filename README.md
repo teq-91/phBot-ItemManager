@@ -1,6 +1,17 @@
-# phBot ItemSorter
+# phBot ItemManager
 
-phBot plugin to sort your inventory, storage and guild-storage items by `servername`
+this is a phBot plugin and it does:
+
+* sort your inventory, storage and guild-storage items by `servername`
+
+* store/take gold from storage/guild-storage in advanced mode
+
+    * loops automatically per 1.000.000.000 gold (useful on private servers with high gold-drop-ratio)
+    * use `b` or `B` for 1.000.000.000
+        * example usage: `5b` = 5.000.000.000
+    * use `m` or `M` for 1.000.000
+    * use `k` or `K` for 1.000
+    * use `0` or `all` for all available gold (currently works only with `store`)
 
 **important**:
 
