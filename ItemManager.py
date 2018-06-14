@@ -31,6 +31,7 @@ npc_servernames = {
     'guild_storage': [
         'NPC_CH_GENARAL_SP',  # jangan
         'NPC_WC_GUILD',  # donwhang
+        'NPC_CA_GUILD',  # samarkand
         'NPC_SD_M_AREA_GUILD',  # alexandria south
         'NPC_SD_T_AREA_GUILD2'  # alexandria north
     ]
@@ -318,12 +319,7 @@ def send_npc_select(type, timeout=1.0):
         return False
     if debug >= 2:
         log('[%s] DEBUG2:  └ npc_id: %s' % (__name__, hexlify(npc_id)))
-    if get_locale() == 18:  # iSRO
-        opcode = 0x7045
-    elif get_locale() == 22:  # vSRO
-        opcode = 0x7C45
-    else:
-        return False
+    opcode = 0x7045
     if debug >= 2:
         log('[%s] DEBUG2:  └ opcode: 0x%02X' % (__name__, opcode))
     packet = bytearray(npc_id)
