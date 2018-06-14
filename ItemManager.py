@@ -1,6 +1,5 @@
 from phBot import *
 from threading import Thread
-# from multiprocessing import Process
 from time import sleep
 from binascii import hexlify  # for debugging
 
